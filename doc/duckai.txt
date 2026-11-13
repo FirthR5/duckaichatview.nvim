@@ -1,0 +1,99 @@
+*duckai.txt*   Chat-style view for Duck.ai exports   *duckai*
+
+==============================================================================
+CONTENTS                                                    *duckai-contents*
+
+    1. Introduction ........................ |duckai-intro|
+    2. Setup ............................... |duckai-setup|
+    3. Options ............................. |duckai-options|
+    4. Commands ............................ |duckai-commands|
+    5. Keymaps ............................. |duckai-keymaps|
+    6. License ............................. |duckai-license|
+
+==============================================================================
+1. INTRODUCTION                                             *duckai-intro*
+
+duckaichatview.nvim renders Duck.ai `.txt` exports as a chat view. The buffer
+text is never modified: highlights, virtual lines, conceal and folds are drawn
+with extmarks and |foldexpr|, so the file stays plain Markdown.
+
+A chat is detected when the first line starts with: >
+    This conversation was generated with Duck.ai
+<
+==============================================================================
+2. SETUP                                                     *duckai-setup*
+
+With lazy.nvim: >
+    {
+      "FirthR5/duckaichatview.nvim",
+      dependencies = { "OXY2DEV/markview.nvim" },
+      ft = { "markdown", "text" },
+      cmd = {
+        "DuckOpen",
+        "DuckToggleReasoning",
+        "DuckToggleMeta",
+        "DuckToggleFold",
+        "DuckToggleUI",
+      },
+      opts = {},
+    }
+<
+Or call |setup()| manually: >
+    require("duckai").setup({ reasoning = "hide" })
+<
+==============================================================================
+3. OPTIONS                                                 *duckai-options*
+
+|duckai.setup()| accepts a table. Defaults: >
+    {
+      header = true,        -- conversation header (provider + turn count)
+      counter = true,       -- per-turn "n/total" counter
+      spacer = true,        -- blank line between prompt and answer
+      rule = true,          -- separator above each turn
+      model_badge = true,   -- model name under the prompt
+      meta = true,          -- date next to the user icon
+      reasoning = "fold",   -- "fold" | "hide" | "show"
+      fold_turns = false,   -- start with every turn folded
+      filetype = "markdown",-- filetype applied to detected chats
+      notes = vim.env.MD_NOTES or "~/Documents/MD_Notes",
+      icons = { ... },
+    }
+<
+`notes` is the base directory for |:DuckOpen|. Exports are searched in
+`notes .. "/ChatBot/duck.ai*.txt"`.
+
+==============================================================================
+4. COMMANDS                                               *duckai-commands*
+
+                                                              *:DuckOpen*
+:DuckOpen [file]     Open {file}, or pick an export from the notes directory.
+                     Uses Telescope when available, otherwise |vim.ui.select()|.
+
+                                                      *:DuckToggleReasoning*
+:DuckToggleReasoning Cycle reasoning blocks: "fold" -> "hide" -> "show".
+
+                                                           *:DuckToggleMeta*
+:DuckToggleMeta      Show or hide dates and metadata.
+
+                                                           *:DuckToggleFold*
+:DuckToggleFold      Toggle folding by turn.
+
+                                                             *:DuckToggleUI*
+:DuckToggleUI        Show or hide the chat view (toggles 'conceallevel').
+
+==============================================================================
+5. KEYMAPS                                                 *duckai-keymaps*
+
+Buffer-local, under the `Duck` prefix (`<leader>Xmd` by default): >
+    <prefix>o   :DuckOpen
+    <prefix>r   :DuckToggleReasoning
+    <prefix>m   :DuckToggleMeta
+    <prefix>f   :DuckToggleFold
+    <prefix>u   :DuckToggleUI
+<
+==============================================================================
+6. LICENSE                                                 *duckai-license*
+
+GPL-3.0. See the LICENSE file in the repository.
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
