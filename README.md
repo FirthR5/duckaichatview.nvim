@@ -1,5 +1,7 @@
 # duckaichatview.nvim
 
+> **v0.1.0** — first public version.
+
 Chat-style view for **Duck.ai** `.txt` exports inside Neovim.
 
 Duck.ai lets you export a conversation as a plain `.txt`. That file is readable
@@ -140,6 +142,24 @@ The buffer is never modified. Everything is drawn with `nvim_buf_set_extmark`
 through `foldexpr`. Because the text stays untouched, saving, searching, diffs
 and Markdown rendering all keep working.
 
+## Versioning
+
+Current release: **v0.1.0**, the first public version. While the plugin is in
+`0.x`, minor releases may still include breaking changes; the API is expected to
+stabilize at `v1.0.0`.
+
+With lazy.nvim you can track or pin releases:
+
+```lua
+{ "FirthR5/duckaichatview.nvim", version = "*" },      -- latest tag
+{ "FirthR5/duckaichatview.nvim", version = "v0.1.0" }, -- exact tag
+{ "FirthR5/duckaichatview.nvim", version = "^0.1" },   -- range
+```
+
+Without `version`, lazy.nvim follows the default branch HEAD. See
+[CHANGELOG.md](CHANGELOG.md) for the history.
+
 ## License
 
 [GPL-3.0](LICENSE)
+
